@@ -10,6 +10,7 @@
 
     try {
         $connect = new PDO($database, $username, $password);
+
         $connect -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     catch(PDOException $e) {

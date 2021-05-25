@@ -1,8 +1,6 @@
 <?php
-session_start();
 
-include_once("includes/connect.php");
-$connect = $_SESSION['connect'];
+    include_once("../includes/connect.php");
 
-
+    $sql = "SELECT * FROM education";
 ?>

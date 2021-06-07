@@ -13,7 +13,7 @@
         $connect = new PDO($database, $username, $password);
 
         $connect -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "Er is connectie!!";
+        //echo "Er is connectie!!";
     }
     catch(PDOException $e) {
         echo $e->getMessage();

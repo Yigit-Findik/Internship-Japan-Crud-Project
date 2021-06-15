@@ -25,8 +25,7 @@
     <div class="w-3/6 h-laptop-full">
         <div class="w-full h-40"></div>
         <div class="ml-40">
-            <?php
-                echo "  
+
                       <form method='post' class='pt-5'>
                         <h1 class='text-7xl my-5'>Login</h1>
                         <!--username input field-->
@@ -39,7 +38,7 @@
                         <!--password input field-->
                         <div class='mt-5 w-80 h-7 border-b-2 border-gray-400 flex flex-wrap'>
                             <img class='w-5 h-5 mt-1' src='../images/padlock.svg'>
-                            <input name='pword' class='h-6 w-5/6 ml-2 placeholder-gray-500 placeholder-opacity-50 bg-none' placeholder='password'>
+                            <input type='password' name='pword' class='h-6 w-5/6 ml-2 placeholder-gray-500 placeholder-opacity-50 bg-none' placeholder='password'>
                         </div> 
                         <!--end password-->
                         
@@ -52,21 +51,43 @@
                         <!--end checkbox-->
                         <button name='loginButton' class='w-40 h-10 mt-5 rounded-2xl text-white transition duration-300 bg-original-blue hover:bg-blue-700 transform'>Login</button>
                       </form>
-                      "
-                ;
+            <?php               ;
                 #if clicked loginbutton check if input field empty
                 if (isset($_POST['loginButton'])) {
+                    $uname = $_POST['uname'];
+                    $pword = $_POST['pword'];
                     if (empty($uname) and empty($pword)) {
-                        header("location: login.php?error=username and password is required!");
                         session_destroy();
+                        header("location: login.php?error=username and password is required!");
                     }
                     elseif (empty($uname)) {
-                        header("location: login.php?error=username is required!");
                         session_destroy();
+                        header("location: login.php?error=username is required!");
                     }
                     elseif (empty($pword)) {
-                        header("location: login.php?error=password is required!");
                         session_destroy();
+                        header("location: login.php?error=password is required!");
+                    }
+
+                    elseif (!empty($uname) and !empty($pword)){
+                        #IMPORTANT NOTICE
+                        #!   not finished, if not empty ( filled with username and password, check database if combination is correct )
+                        #!   ask davor, niek or mike for php
+                        #!   ask bart for frontend
+                        $sql = "SELECT username, pass_word FROM intern
+                                WHERE username = ?";
+
+                        $stmt = $connect->prepare($sql);
+                        $stmt->execute([$_POST['uname']]);
+                        $result = $stmt->fetchAll();
+                        $hash = $result[0]['pass_word'];
+
+                        if (password_verify($_POST['pword'], $hash)) {
+                            $_SESSION['intern_id'] = $result[0]['id'];
+                            header('location: index.php');
+                        }else {
+                            header('location: login.php');
+                        }
                     }
                 }
 

@@ -1,3 +1,7 @@
+<?php
+    include_once("../includes/connect.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,51 +16,80 @@
     <div class="h-laptop-full w-1/2">
         <div class="w-full h-28"></div>
         <div class="ml-44 pt-2.5">
+            <form method="post">
+                <h1 class='text-7xl'>Register</h1>
+                <div class='flex flex-wrap w-100 h-14 mt-5'>
+                    <div class='w-1/2 h-full'>
+                        <p class='text-gray-700 text-opacity-50'>First name</p>
+                        <div class='bg-white w-11/12 rounded-md border-gray-200 border-2'>
+                            <input name='firstnameINP' class='w-11/12 ml-2 h-7'>
+                        </div>
+                    </div>
+                    <div class='w-1/2 h-full'>
+                        <p class='text-gray-700 text-opacity-50'>Last name</p>
+                        <div class='bg-white w-11/12 rounded-md border-gray-200 border-2'>
+                            <input name='lastnameINP' class='w-11/12 ml-2 h-7'>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='w-100 h-14 mt-2'>
+                    <p class='text-gray-700 text-opacity-50'>Email address</p>
+                    <div class='bg-white w-97.75 rounded-md border-gray-200 border-2'>
+                        <input name='emailINP' class='w-11/12 h-7 rounded-md ml-1'>
+                    </div>
+                </div>
+
+                <div class='w-100 h-14 mt-2'>
+                    <p class='text-gray-700 text-opacity-50'>Username (only letters, numbers and underscores)</p>
+                    <div class='bg-white w-97.75 rounded-md border-gray-200 border-2'>
+                        <input name='usernameINP' class='w-11/12 h-7 rounded-md ml-1'>
+                    </div>
+                </div>
+
+                <div class='w-100 h-14 mt-2'>
+                    <p class='text-gray-700 text-opacity-50'>Password (min 6 chars)</p>
+                    <div class='bg-white w-97.75 rounded-md border-gray-200 border-2'>
+                        <input name='passwordINP' class='w-11/12 h-7 rounded-md ml-1'>
+                    </div>
+                </div>
+                <button name='registerButton' class='w-40 h-10 mt-5 rounded-2xl text-white transition duration-300 bg-original-blue hover:bg-blue-700 transform'>Register</button>
+
+            </form>
+
             <?php
-                echo
-                    "  
-                    <form>         
-                        <h1 class='text-7xl'>Register</h1>
-                        <div class='flex flex-wrap w-100 h-14 mt-5'>
-                            <div class='w-1/2 h-full'>
-                                <p class='text-gray-700 text-opacity-50'>First name</p>
-                                <div class='bg-white w-11/12 rounded-md border-gray-200 border-2'>
-                                    <input name='firstnameINP' class='w-11/12 ml-2 h-7'>                            
-                                </div>
-                            </div>
-                            <div class='w-1/2 h-full'>
-                                <p class='text-gray-700 text-opacity-50'>Last name</p>
-                                <div class='bg-white w-11/12 rounded-md border-gray-200 border-2'>
-                                    <input name='lastnameINP' class='w-11/12 ml-2 h-7'>                            
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class='w-100 h-14 mt-2'>
-                            <p class='text-gray-700 text-opacity-50'>Email address</p>
-                            <div class='bg-white w-97.75 rounded-md border-gray-200 border-2'>
-                                <input name='emailINP' class='w-11/12 h-7 rounded-md ml-1'>                            
-                            </div>
-                        </div>
-                        
-                        <div class='w-100 h-14 mt-2'>
-                            <p class='text-gray-700 text-opacity-50'>Username (only letters, numbers and underscores)</p>
-                            <div class='bg-white w-97.75 rounded-md border-gray-200 border-2'>
-                                <input name='usernameINP' class='w-11/12 h-7 rounded-md ml-1'>                            
-                            </div>
-                        </div>
-                        
-                        <div class='w-100 h-14 mt-2'>
-                            <p class='text-gray-700 text-opacity-50'>Password (min 6 chars)</p>
-                            <div class='bg-white w-97.75 rounded-md border-gray-200 border-2'>
-                                <input name='passwordINP' class='w-11/12 h-7 rounded-md ml-1'>                            
-                            </div>
-                        </div>
-                        <button name='registerButton' class='w-40 h-10 mt-5 rounded-2xl text-white transition duration-300 bg-original-blue hover:bg-blue-700 transform'>Register</button>
-                       
-                    </form>
-                    "
-                ;
+
+                if (isset($_POST['registerButton'])) {
+                    $fname = $_POST['firstnameINP'];
+                    $lname = $_POST['lastnameINP'];
+                    $emailVAR = $_POST['emailINP'];
+                    $uname = $_POST['usernameINP'];
+                    $pword = $_POST['passwordINP'];
+
+                    if (empty($uname) or empty($fname) or empty($lname) or empty($emailVAR) or empty($pword)) {
+                        session_destroy();
+                        header('location: register.php?error=Fill everything in!');
+                    }
+                    elseif (!empty($uname) and !empty($fname) and !empty($lname) and !empty($emailVAR) and !empty($pword)) {
+
+                        $user_id_worth = 2;
+
+                        $passwordHASH = password_hash($pword,PASSWORD_DEFAULT);
+
+                        $sql = "INSERT INTO intern (user_id, firstname, surname, email, username, pass_word) 
+                        VALUES (:user_id,:firstname,:surname,:email,:username,:pass_word)";
+                        $stmt = $connect->prepare($sql);
+                        $stmt->bindParam(":user_id", $user_id_worth);
+                        $stmt->bindParam(":firstname", $fname);
+                        $stmt->bindParam(":surname", $lname);
+                        $stmt->bindParam(":email", $emailVAR);
+                        $stmt->bindParam(":username", $uname);
+                        $stmt->bindParam(":pass_word", $passwordHASH);
+                        $stmt->execute();
+                        header("Location: registerSuccessful.php");
+                    }
+                }
+
             ?>
             <div class="w-80 h-6 mt-10 flex flex-wrap">
                 <p class="text-sm mt-0.5">Or register with</p>

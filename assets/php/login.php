@@ -70,20 +70,17 @@
                     }
 
                     elseif (!empty($uname) and !empty($pword)){
-                        #IMPORTANT NOTICE
-                        #!   not finished, if not empty ( filled with username and password, check database if combination is correct )
-                        #!   ask davor, niek or mike for php
-                        #!   ask bart for frontend
-                        $sql = "SELECT username, pass_word FROM intern
+                        $sql = "
+                                SELECT * 
+                                FROM intern 
                                 WHERE username = ?";
-
                         $stmt = $connect->prepare($sql);
                         $stmt->execute([$_POST['uname']]);
                         $result = $stmt->fetchAll();
                         $hash = $result[0]['pass_word'];
 
                         if (password_verify($_POST['pword'], $hash)) {
-                            $_SESSION['intern_id'] = $result[0]['id'];
+                            $_SESSION['intern_id'] = $result[0]['intern_id'];
                             header('location: index.php');
                         }else {
                             header('location: login.php');

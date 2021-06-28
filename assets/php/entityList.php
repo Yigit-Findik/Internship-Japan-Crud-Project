@@ -82,6 +82,7 @@
                         echo "</div>";
                     echo "</div>";
                 }
+                $_SESSION['search_input'] = "";
             ?>
         </div>
 

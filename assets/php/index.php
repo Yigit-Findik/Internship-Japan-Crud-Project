@@ -44,13 +44,19 @@
                 <h1 class="ml-200 pt-9 w-40 h-40 transform rotate-12 text-blue-200">Search now!</h1>
             </div>
 
-            <div class="flex flex-wrap mx-auto w-130 h-auto rounded-xl bg-white shadow-lg border-2 hover:border-blue-200">
-                <img class="w-6 h-6 mt-3 ml-2.5" src="../images/loupe.svg">
-                <input class="h-7 w-11/12 py-6 px-2.5 rounded-xl">
+            <form method="post" class="flex flex-wrap mx-auto w-130 h-auto rounded-xl bg-white shadow-lg border-2 hover:border-blue-200">
+                <button class="w-auto h-auto outline-none" name="imgButton"><img class="w-6 h-6 ml-2.5" src="../images/loupe.svg"></button>
+                <input name="search_input" class="h-7 w-11/12 py-6 px-2.5 rounded-xl">
+
                 <?php
-                #if image clicked than search what the search keyword was to get the most relevant interns
+                    if (isset($_POST['imgButton'])) {
+                        if (!empty($_POST["search_input"])) {
+                            $_SESSION["search_input"] = $_POST['search_input'];
+                            header("location: entityList.php");
+                        }
+                    }
                 ?>
-            </div>
+            </form>
         </div>
     </div>
 

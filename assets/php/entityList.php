@@ -53,7 +53,7 @@
                                 echo $s['entity_name'];
                             echo "</p>";
                         echo "</div>";
-
+                        // vind ik grappig groetjes Bart
                         echo "<div class='w-120 h-auto bg-white mt-2 mb-2 border-2 border-gray-200'>";
                             echo "<div class='flex flex-wrap'>";
                                 echo "<p class='ml-2 text-2xl'>";

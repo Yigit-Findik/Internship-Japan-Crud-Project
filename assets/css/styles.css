@@ -1,8 +1,0 @@
-textarea:focus, input:focus{
-    outline: none;
-}
-
-.background-index {
-    background-image: url("../images/robot.jpg");
-    background-repeat: no-repeat;
-}

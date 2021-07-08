@@ -1,1 +1,3 @@
 # Internship-Japan-Crud-Project
+
+ANY IMAGE THAT WAS USED IN THIS PROJECT DOES NOT BELONG TO ME!
